@@ -1,5 +1,5 @@
 
-const client = require('../dbConfig') 
+const client = require('../dbConfig');
 
 const MovieController = {
 
@@ -77,14 +77,9 @@ if(!title && !director && !rating) {
 //  TOP RATED MOVIES
 
  getRatings:(req, res) => {
- const { id } = req.params;
- const limit = 5;
- const ratingQuery = `SELECT * FROM "movies" ORDER BY rating DESC LIMIT ${limit}`;
- if(!rating || rating === "" ) {
-    res.sendStatus(400).send("Something went wrong with your data")
- return;
-    }
-   
+  const { id } = req.params.id;
+   let limit = req.query.limit || 5;
+const ratingQuery = `SELECT * FROM "movies" ORDER BY rating DESC LIMIT ${limit}`;
 client.query(ratingQuery)
   .then(data => res.json(data.rows))
   .catch(err => console.log(err));
